@@ -1,0 +1,48 @@
+function switchGM(g: gamemode, s: sender, p: string = "0"):
+    if {_s} has permission "gamemode.%{_g}%" or "gamemode.*":
+        if {_p} is "0":
+            if {_s} is player:
+                set {_s}'s gamemode to {_g}
+                send parseMsg("gamemodeChange", {_s}, "%{_g}%") to {_s}
+            else:
+                send parseMsg("notPlayer", {_s}) to {_s}
+        else:
+            if {_p} parsed as offline player is online:
+                set {_p} parsed as player's gamemode to {_g}
+                send parseMsg("gamemodeChangeFor", {_p} parsed as offline player, "%{_g}%") to {_s}
+            else:
+                send parseMsg("notOnline", {_p} parsed as offline player) to {_s}
+    else:
+        send parseMsg("noPermissions", {_s}) to {_s}
+
+command /gmc [<offline player>]:
+    aliases: /gm1, /gamemodec, /creative
+    trigger:
+        if arg-1 is set:
+            switchGM(creative, sender, "%arg-1%")
+        else:
+            switchGM(creative, sender)
+
+command /gms [<offline player>]:
+    aliases: /gm0, /gamemodes, /survival
+    trigger:
+        if arg-1 is set:
+            switchGM(survival, sender, "%arg-1%")
+        else:
+            switchGM(survival, sender)
+
+command /gma [<offline player>]:
+    aliases: /gm2, /gamemodea, /adventure
+    trigger:
+        if arg-1 is set:
+            switchGM(adventure, sender, "%arg-1%")
+        else:
+            switchGM(adventure, sender)
+
+command /gmsp [<offline player>]:
+    aliases: /gm3, /gamemodesp, /spectator
+    trigger:
+        if arg-1 is set:
+            switchGM(spectator, sender, "%arg-1%")
+        else:
+            switchGM(spectator, sender)

@@ -21,22 +21,3 @@ on join:
 
 on quit:
     set quit-message to parseMsg("quitMessage", player)
-
-command /gmc [<offline player>]:
-    aliases: /gm1, /gamemodec, /creative
-    trigger:
-        if sender has permission "gamemode.creative" or "gamemode.*":
-            if arg-1 is not set:
-                if executor is player:
-                    set sender's gamemode to creative
-                    send parseMsg("gamemodeChange", arg-1, "creative") to sender
-                else:
-                    send parseMsg("notPlayer", sender) to sender
-            else:
-                if arg-1 is online:
-                    set arg-1's gamemode to creative
-                    send parseMsg("gamemodeChangeFor", arg-1, "creative") to sender
-                else:
-                    send parseMsg("notOnline", arg-1) to sender
-        else:
-            send parseMsg("noPermissions", sender) to sender
