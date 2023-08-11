@@ -1,0 +1,38 @@
+options:
+    prefix: &8[&6server&8] &r
+
+on skript load:
+    load yaml "plugins/server/messages.yml" as "messagesYAML"
+    if yaml "messagesYAML" is empty:
+        YsetValue("prefix", "messagesYAML", "&7[&6server&7]&r")
+        YsetValue("noPermissions", "messagesYAML", "%%pr &cYou don't have permission to do that!")
+        YsetValue("joinMessage", "messagesYAML", "&7[&a+&7] &e%%pl")
+        YsetValue("quitMessage", "messagesYAML", "&7[&c-&7] &e%%pl")
+        YsetValue("gamemodeChange", "messagesYAML", "%%pr &7Gamemode changed to &e%%g")
+        YsetValue("gamemodeChangeFor", "messagesYAML", "%%pr &7%%pl's gamemode changed to &e%%g")
+        YsetValue("notOnline", "messagesYAML", "&cPlayer &e%%pl &cis not online!")
+        save yaml "messagesYAML"
+
+
+
+on join:
+    set join-message to parseMsg("joinMessage", player)
+
+on quit:
+    set quit-message to parseMsg("quitMessage", player)
+
+command /gmc [<offline player>]:
+    aliases: /gm1, /gamemodec, /creative
+    trigger:
+        if sender has permission "gamemode.creative" or "gamemode.*":
+            if arg-1 is not set:
+                set sender's gamemode to creative
+                send parseMsg("gamemodeChange", arg-1, "creative") to sender
+            else:
+                if arg-1 is online:
+                    set arg-1's gamemode to creative
+                    send parseMsg("gamemodeChangeFor", arg-1, "creative") to sender
+                else:
+                    send parseMsg("notOnline", arg-1)
+        else:
+            send parseMsg("noPermissions", sender) to sender

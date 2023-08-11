@@ -1,0 +1,12 @@
+function YgetValue(s: string, n: string) :: string:
+    return yaml value "%{_s}%" from "%{_n}%"
+
+function parseMsg(s: string, p: offline player, p1: string = "none", p2: string = "none") :: string:
+    set {_s} to YgetValue("%{_s}%", "messagesYAML")
+    replace all "%%pl" with {_p}'s name in {_s}
+    replace all "%%pr" with YgetValue("prefix", "messagesYAML") in {_s}
+    replace all "%%g" with {_p1} in {_s}
+    return {_s}
+
+function YsetValue(s: string, n: string, v: string):
+    set yaml value "%{_s}%" from "%{_n}%" to "%{_v}%"
