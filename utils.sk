@@ -12,6 +12,7 @@ on skript load:
         YsetValue("gamemodeChangeFor", "messagesYAML", "%%pr &7%%pl's gamemode changed to &e%%g")
         YsetValue("notOnline", "messagesYAML", "%%pr &cPlayer &e%%pl &cis not online!")
         YsetValue("notPlayer", "messagesYAML", "%%pr &cYou need to execute this as player!")
+        YsetValue("invalidGM", "messagesYAML", "%%pr &cInvalid gamemode!")
         save yaml "messagesYAML"
 
 

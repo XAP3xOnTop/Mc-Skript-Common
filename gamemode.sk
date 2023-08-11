@@ -46,3 +46,29 @@ command /gmsp [<offline player>]:
             switchGM(spectator, sender, "%arg-1%")
         else:
             switchGM(spectator, sender)
+
+command /gamemode [<text>] [<offline player>]:
+    aliases: /gm
+    trigger:
+        if arg-1 is set:
+            if arg-1 is "survival", "creative", "adventure" or "spectator":
+                set {_temp} to arg-1
+            else if arg-1 is "0", "1", "2", "3", "s", "c", "a" or "sp":
+                set {_temp} to arg-1
+                if arg-1 is "0" or "s":
+                    set {_temp} to "survival"
+                else if arg-1 is "1" or "c":
+                    set {_temp} to "creative"
+                else if arg-1 is "2" or "a":
+                    set {_temp} to "adventure"
+                else if arg-1 is "3" or "sp":
+                    set {_temp} to "spectator"
+            else:
+                send parseMsg("invalidGM", sender) to sender
+                stop
+            if arg-2 is set:
+                switchGM({_temp} parsed as gamemode, sender, "%arg-2%")
+            else:
+                switchGM({_temp} parsed as gamemode, sender)
+        else:
+            send parseMsg("invalidGM", sender) to sender
